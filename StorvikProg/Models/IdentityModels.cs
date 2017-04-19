@@ -29,5 +29,7 @@ namespace StorvikProg.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<StorvikProg.Models.Project> Projects { get; set; }
     }
 }
