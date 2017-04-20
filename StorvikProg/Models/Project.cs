@@ -9,6 +9,9 @@ namespace StorvikProg.Models
     public class Project
     {
         public int Id { get; set; }
+
+        [Required]
+        public int Number { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
