@@ -9,7 +9,7 @@ namespace StorvikProg.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationsEnabled = false;
             ContextKey = "StorvikProg.Models.ApplicationDbContext";
         }
 
