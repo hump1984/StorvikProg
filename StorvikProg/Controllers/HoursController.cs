@@ -180,33 +180,37 @@ namespace StorvikProg.Controllers
 
         public void ImportHoursFromXlsx(string path)
         {
-            
-            var dt = DataAccess.DataTable.New.ReadCsv(path);
+            StreamReader reader = new StreamReader(path,System.Text.Encoding.Default);
+
+            var dt = DataAccess.DataTable.New.Read(reader,',');
 
             var hours = dt.Rows;
 
             foreach (var row in hours)
             {
-                var name = row.Values[1]; //TODO: Check column name
-                var split = name.Split(',');
-                var lastname = split[0];
-                var firstname = split[1];
-
-                if (!CheckEmployeeExist(lastname, firstname))
+                if (row.ColumnNames.ElementAt(1) == "Ansatt")
                 {
-                    var newEmployee = new Employee
+                    var name = row.Values[1]; 
+                    var split = name.Split(',');
+                    var lastname = split[0];
+                    var firstname = split[1];
+
+                    if (!CheckEmployeeExist(lastname, firstname))
                     {
-                        FirstName = firstname,
-                        LastName = lastname,
-                        BirthDate = DateTime.Now,
-                        StartDate = DateTime.Now,
-                        StopDate = DateTime.Now
+                        var newEmployee = new Employee
+                        {
+                            FirstName = firstname,
+                            LastName = lastname,
+                            BirthDate = DateTime.Now,
+                            StartDate = DateTime.Now,
+                            StopDate = DateTime.Now
 
-                    };
-                    
-                    db.Employees.Add(newEmployee);
-                    db.SaveChanges();
+                        };
 
+                        db.Employees.Add(newEmployee);
+                        db.SaveChanges();
+
+                    }
                 }
             }
         }
