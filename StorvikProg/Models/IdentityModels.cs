@@ -36,5 +36,7 @@ namespace StorvikProg.Models
         public System.Data.Entity.DbSet<StorvikProg.Models.Employee> Employees { get; set; }
 
         public System.Data.Entity.DbSet<StorvikProg.Models.Equipment> Equipments { get; set; }
+
+        public System.Data.Entity.DbSet<StorvikProg.Models.Hour> Hours { get; set; }
     }
 }
