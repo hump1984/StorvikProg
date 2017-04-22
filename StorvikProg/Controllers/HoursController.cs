@@ -181,44 +181,92 @@ namespace StorvikProg.Controllers
         public void ImportHoursFromXlsx(string path)
         {
             StreamReader reader = new StreamReader(path,System.Text.Encoding.Default);
-
+            
             var dt = DataAccess.DataTable.New.Read(reader,',');
 
             var hours = dt.Rows;
+
+            var newhour = new Hour();
 
             foreach (var row in hours)
             {
                 if (row.ColumnNames.ElementAt(1) == "Ansatt")
                 {
-                    var name = row.Values[1]; 
-                    var split = name.Split(',');
-                    var lastname = split[0];
-                    var firstname = split[1];
-
-                    if (!CheckEmployeeExist(lastname, firstname))
-                    {
-                        var newEmployee = new Employee
-                        {
-                            FirstName = firstname,
-                            LastName = lastname,
-                            BirthDate = DateTime.Now,
-                            StartDate = DateTime.Now,
-                            StopDate = DateTime.Now
-
-                        };
-
-                        db.Employees.Add(newEmployee);
-                        db.SaveChanges();
-
-                    }
+                    var name = row.Values[1];
+                    newhour.Employee = CheckEmployee(name); //TODO: ADD Employee Number
                 }
+
+                if (row.ColumnNames.ElementAt(2) == "Dato")
+                {
+                    newhour.RegDate = DateTime.Parse(row.Values[2]);
+                }
+
+                if (row.ColumnNames.ElementAt(3) == "Antall")
+                {
+                    newhour.Hours = Convert.ToDouble(row.Values[3]);
+                }
+
+                if (row.ColumnNames.ElementAt(6) == "Prosjekt id")
+                {
+                    newhour.Project = CheckProject(Convert.ToInt32(row.Values[6]), row.Values[7]);
+                }
+
             }
         }
 
-        public bool CheckEmployeeExist(string lastname, string firstname)
+        public Project CheckProject(int number, string projectname)
         {
-            return Enumerable.Any(db.Employees, employee => employee.FirstName == firstname && employee.LastName == lastname);
-        }
+            foreach (var project in db.Projects)
+            {
+                if (project.Number == number)
+                    return project;
+            }
+
+            if (projectname.StartsWith(number.ToString()))
+            {
+                projectname = projectname.Replace(number + " ", "");
+            }
+
+            var newProject = new Project
+            {
+                Number = number,
+                Name = projectname
+            };
+
+            db.Projects.Add(newProject);
+            db.SaveChanges();
+
+            return newProject;
+
+        }  //Checks if project exists, if not create project. Also returns project
+
+        public Employee CheckEmployee(string name)
+        {
+            var split = name.Split(',');
+            var lastname = split[0];
+            var firstname = split[1];
+
+            foreach (var employee in db.Employees) //Check for existing employee by name
+            {
+                if (employee.LastName == lastname && employee.FirstName == firstname) 
+                    return employee;
+            }
+            
+            var newEmployee = new Employee //Creates new employee record if it doesnt exist in db.
+            {
+                FirstName = firstname,
+                LastName = lastname,
+                BirthDate = DateTime.Now, //Temporary, datetime2 and datetime troubles as usual.
+                StartDate = DateTime.Now,
+                StopDate = DateTime.Now
+            };
+
+            db.Employees.Add(newEmployee);
+            db.SaveChanges();
+
+            return newEmployee;
+
+        }  //Checks if employee exist, if not create employee. Also returns Employee
     }
 }
 

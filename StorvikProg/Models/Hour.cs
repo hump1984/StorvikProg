@@ -11,7 +11,7 @@ namespace StorvikProg.Models
         public Employee Employee { get; set; }
         public int EmployeeId { get; set; }
         public DateTime RegDate { get; set; }
-        public float Hours { get; set; }
+        public double Hours { get; set; }
         public Project Project { get; set; }
         public int ProjectId { get; set; }
 
