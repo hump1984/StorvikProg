@@ -211,26 +211,69 @@ namespace StorvikProg.Controllers
                     newhour.Project = CheckProject(Convert.ToInt32(row.Values[6]), row.Values[7]);
                 }
 
+                //REgtype
+                //Worktype
+                //Hourtype
+
+                if (row.ColumnNames.ElementAt(16) == "Maskintype  id")
+                {
+                    newhour.Equipment = CheckEquipment(row.Values[16], row.Values[17]);
+                }
+
+                if (row.ColumnNames.ElementAt(18) == "Kommentar/arb.utført")
+                {
+                    newhour.Comment = row.Values[18];
+                }
+
+                db.Hours.Add(newhour);
+                db.SaveChanges();
+
             }
         }
 
-        public Project CheckProject(int number, string projectname)
+        public Equipment CheckEquipment(string number, string name)
         {
+            if (name.StartsWith(number))
+            {
+                name = name.Replace(number + "-", "");
+            }
+
+            foreach (var equipment in db.Equipments)
+            {
+                if(equipment.Name == name)
+                    return equipment;
+            }
+            
+            var newEquipment = new Equipment
+            {
+                Name = name,
+                Number = number
+                
+            };
+
+            db.Equipments.Add(newEquipment);
+            db.SaveChanges();
+
+            return newEquipment;
+        }
+
+        public Project CheckProject(int number, string name)
+        {
+            if (name.StartsWith(number.ToString()))
+            {
+                name = name.Replace(number + " ", "");
+            }
+
             foreach (var project in db.Projects)
             {
                 if (project.Number == number)
                     return project;
             }
-
-            if (projectname.StartsWith(number.ToString()))
-            {
-                projectname = projectname.Replace(number + " ", "");
-            }
-
+            
             var newProject = new Project
             {
                 Number = number,
-                Name = projectname
+                Name = name
             };
 
             db.Projects.Add(newProject);

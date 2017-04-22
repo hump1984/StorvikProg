@@ -12,6 +12,8 @@ namespace StorvikProg.Models
         [Required]
         public string Name { get; set; }
         [Required]
+        public string Number { get; set; }
+        
         public string Serial { get; set; }
 
     }

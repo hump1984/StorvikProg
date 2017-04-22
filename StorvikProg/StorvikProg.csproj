@@ -238,6 +238,14 @@
     <Compile Include="Migrations\201704220013139_ChangedHoursinhourtodouble.Designer.cs">
       <DependentUpon>201704220013139_ChangedHoursinhourtodouble.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704220055015_addednumbertoequipment.cs" />
+    <Compile Include="Migrations\201704220055015_addednumbertoequipment.Designer.cs">
+      <DependentUpon>201704220055015_addednumbertoequipment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704220102509_changedequipmentnumbertostring.cs" />
+    <Compile Include="Migrations\201704220102509_changedequipmentnumbertostring.Designer.cs">
+      <DependentUpon>201704220102509_changedequipmentnumbertostring.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Employee.cs" />
@@ -367,6 +375,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704220013139_ChangedHoursinhourtodouble.resx">
       <DependentUpon>201704220013139_ChangedHoursinhourtodouble.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704220055015_addednumbertoequipment.resx">
+      <DependentUpon>201704220055015_addednumbertoequipment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704220102509_changedequipmentnumbertostring.resx">
+      <DependentUpon>201704220102509_changedequipmentnumbertostring.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
